@@ -79,7 +79,7 @@ if (hasProperty("curseforge.token")) {
             id = "618812"
             releaseType = "release"
             addGameVersion(minecraftVersion)
-            addGameVersion("22w17a")
+            addGameVersion("1.19-Snapshot")
             addGameVersion("Fabric")
             addGameVersion("Java 17")
 
@@ -99,9 +99,10 @@ githubRelease {
     owner("isXander")
     repo("main-menu-credits")
     tagName("${project.version}")
-    targetCommitish("main")
+    targetCommitish("master")
     body(changelogText)
     releaseAssets(tasks["remapJar"].outputs.files)
+    generateReleaseNotes(false)
 }
 
 publishing {
