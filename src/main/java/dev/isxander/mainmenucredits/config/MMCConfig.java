@@ -21,25 +21,13 @@ public class MMCConfig {
     private final List<Text> bottomLeft = new ArrayList<>();
     private final List<Text> bottomRight = new ArrayList<>();
 
-    public void save() {
+    public void createEmpty() {
         try {
-            var topLeftJson = new JsonArray();
-            for (var text : topLeft) topLeftJson.add(Text.Serializer.toJsonTree(text));
-
-            var topRightJson = new JsonArray();
-            for (var text : topRight) topRightJson.add(Text.Serializer.toJsonTree(text));
-
-            var bottomLeftJson = new JsonArray();
-            for (var text : bottomLeft) bottomLeftJson.add(Text.Serializer.toJsonTree(text));
-
-            var bottomRightJson = new JsonArray();
-            for (var text : bottomRight) bottomRightJson.add(Text.Serializer.toJsonTree(text));
-
             var root = new JsonObject();
-            root.add("top_left", topLeftJson);
-            root.add("top_right", topRightJson);
-            root.add("bottom_left", bottomLeftJson);
-            root.add("bottom_right", bottomRightJson);
+            root.add("top_left", new JsonArray());
+            root.add("top_right", new JsonArray());
+            root.add("bottom_left", new JsonArray());
+            root.add("bottom_right", new JsonArray());
 
             Files.deleteIfExists(CONFIG_PATH);
             Files.writeString(CONFIG_PATH, GSON.toJson(root));
@@ -51,7 +39,7 @@ public class MMCConfig {
     public void load() {
         try {
             if (Files.notExists(CONFIG_PATH)) {
-                save();
+                createEmpty();
                 return;
             }
 
