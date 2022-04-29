@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "dev.isxander"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -54,7 +54,7 @@ tasks {
     }
 }
 
-val changelogText = file("changelogs/${project.version}").takeIf { it.exists() }?.readText() ?: "No changelog provided"
+val changelogText = file("changelogs/${project.version}.md").takeIf { it.exists() }?.readText() ?: "No changelog provided"
 
 modrinth {
     token.set(findProperty("modrinth.token")?.toString())
