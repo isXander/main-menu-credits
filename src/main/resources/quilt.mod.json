@@ -28,7 +28,7 @@
         "homepage": "https://isxander.dev",
         "discord": "https://discord.gg/AJv5ZnNT8q"
       },
-      "license": "LGPLv3",
+      "license": "LGPL-3.0-or-later",
       "icon": "main-menu-credits.png"
     }
   },

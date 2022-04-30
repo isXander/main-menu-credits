@@ -45,17 +45,25 @@ public class MMCConfig {
 
             var root = GSON.fromJson(Files.readString(CONFIG_PATH), JsonObject.class);
 
-            var topLeftJson = root.getAsJsonArray("top_left");
-            topLeftJson.forEach((element) -> topLeft.add(Text.Serializer.fromJson(element)));
+            if (root.has("top_left")) {
+                var topLeftJson = root.getAsJsonArray("top_left");
+                topLeftJson.forEach((element) -> topLeft.add(Text.Serializer.fromJson(element)));
+            }
 
-            var topRightJson = root.getAsJsonArray("top_right");
-            topRightJson.forEach((element) -> topRight.add(Text.Serializer.fromJson(element)));
+            if (root.has("top_right")) {
+                var topRightJson = root.getAsJsonArray("top_right");
+                topRightJson.forEach((element) -> topRight.add(Text.Serializer.fromJson(element)));
+            }
 
-            var bottomLeftJson = root.getAsJsonArray("bottom_left");
-            bottomLeftJson.forEach((element) -> bottomLeft.add(Text.Serializer.fromJson(element)));
+            if (root.has("bottom_left")) {
+                var bottomLeftJson = root.getAsJsonArray("bottom_left");
+                bottomLeftJson.forEach((element) -> bottomLeft.add(Text.Serializer.fromJson(element)));
+            }
 
-            var bottomRightJson = root.getAsJsonArray("bottom_right");
-            bottomRightJson.forEach((element) -> bottomRight.add(Text.Serializer.fromJson(element)));
+            if (root.has("bottom_right")) {
+                var bottomRightJson = root.getAsJsonArray("bottom_right");
+                bottomRightJson.forEach((element) -> bottomRight.add(Text.Serializer.fromJson(element)));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

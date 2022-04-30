@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "dev.isxander"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -102,7 +102,6 @@ githubRelease {
     targetCommitish("master")
     body(changelogText)
     releaseAssets(tasks["remapJar"].outputs.files)
-    generateReleaseNotes(false)
 }
 
 publishing {

@@ -39,7 +39,7 @@ public class TitleScreenMixin extends Screen {
         {
             var i = 0;
             for (var text : config.getBottomLeft()) {
-                addDrawableChild(new TextWidget(2, height - (22 + i * 12), textRenderer.getWidth(text), 10, text, (Screen) (Object) this));
+                addDrawableChild(new TextWidget(2, height - (20 + i * 12), textRenderer.getWidth(text), 10, text, (Screen) (Object) this));
                 i++;
             }
         }
@@ -47,7 +47,7 @@ public class TitleScreenMixin extends Screen {
         {
             var i = 0;
             for (var text : config.getBottomRight()) {
-                addDrawableChild(new TextWidget(width - textRenderer.getWidth(text) - 2, height - (22 + i * 12), textRenderer.getWidth(text), 10, text, (Screen) (Object) this));
+                addDrawableChild(new TextWidget(width - textRenderer.getWidth(text) - 2, height - (20 + i * 12), textRenderer.getWidth(text), 10, text, (Screen) (Object) this));
                 i++;
             }
         }
