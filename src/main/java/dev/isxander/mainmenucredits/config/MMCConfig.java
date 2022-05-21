@@ -21,6 +21,8 @@ public class MMCConfig {
     private final List<Text> bottomLeft = new ArrayList<>();
     private final List<Text> bottomRight = new ArrayList<>();
 
+    private final List<String> modBlacklist = new ArrayList<>();
+
     public void createEmpty() {
         try {
             var root = new JsonObject();
@@ -28,6 +30,7 @@ public class MMCConfig {
             root.add("top_right", new JsonArray());
             root.add("bottom_left", new JsonArray());
             root.add("bottom_right", new JsonArray());
+            root.add("mod_blacklist", new JsonArray());
 
             Files.deleteIfExists(CONFIG_PATH);
             Files.writeString(CONFIG_PATH, GSON.toJson(root));
@@ -64,6 +67,11 @@ public class MMCConfig {
                 var bottomRightJson = root.getAsJsonArray("bottom_right");
                 bottomRightJson.forEach((element) -> bottomRight.add(Text.Serializer.fromJson(element)));
             }
+
+            if (root.has("mod_blacklist")) {
+                var modBlacklistJson = root.getAsJsonArray("mod_blacklist");
+                modBlacklistJson.forEach((element) -> modBlacklist.add(element.getAsString()));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,5 +91,9 @@ public class MMCConfig {
 
     public List<Text> getBottomRight() {
         return bottomRight;
+    }
+
+    public List<String> getModBlacklist() {
+        return modBlacklist;
     }
 }

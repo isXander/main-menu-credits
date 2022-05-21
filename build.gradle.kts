@@ -12,10 +12,15 @@ plugins {
 }
 
 group = "dev.isxander"
-version = "1.0.2"
+version = "1.0.3"
 
 repositories {
     mavenCentral()
+    maven("https://maven.terraformersmc.com")
+    maven("https://maven.shedaniel.me")
+    maven("https://cursemaven.com") {
+        content { includeGroup("curse.maven") }
+    }
 }
 
 val minecraftVersion: String by project
@@ -30,6 +35,13 @@ dependencies {
     })
 
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
+
+    // compat
+    modImplementation("com.terraformersmc:modmenu:3.2.2") // fix button shifting
+
+    modImplementation("curse.maven:minimal-menu-405795:3798011") // minimal-menu-1.18.2-0.1.5 - fix bottom right offset
+    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.53.0+1.18.2")
+    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:6.2.+")
 }
 
 tasks {

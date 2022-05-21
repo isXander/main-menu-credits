@@ -17,8 +17,12 @@ public class MainMenuCredits implements ClientModInitializer {
         config = new MMCConfig();
         config.load();
 
-        var entrypoints = FabricLoader.getInstance().getEntrypoints("main-menu-credits", MainMenuCreditAPI.class);
-        for (var api : entrypoints) {
+        var entrypoints = FabricLoader.getInstance().getEntrypointContainers("main-menu-credits", MainMenuCreditAPI.class);
+        for (var container : entrypoints) {
+            if (config.getModBlacklist().contains(container.getProvider().getMetadata().getId()))
+                continue;
+
+            var api = container.getEntrypoint();
             config.getTopLeft().addAll(api.getTopLeft());
             config.getTopRight().addAll(api.getTopRight());
             config.getBottomLeft().addAll(api.getBottomLeft());
