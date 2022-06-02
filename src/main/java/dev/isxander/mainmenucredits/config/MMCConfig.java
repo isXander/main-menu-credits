@@ -2,35 +2,25 @@ package dev.isxander.mainmenucredits.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.text.Text;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MMCConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("isxander-main-menu-credits.json");
 
-    private final List<Text> topLeft = new ArrayList<>();
-    private final List<Text> topRight = new ArrayList<>();
-    private final List<Text> bottomLeft = new ArrayList<>();
-    private final List<Text> bottomRight = new ArrayList<>();
-
-    private final List<String> modBlacklist = new ArrayList<>();
+    public final MMCConfigEntry MAIN_MENU = new MMCConfigEntry("main_menu");
+    public final MMCConfigEntry PAUSE_MENU = new MMCConfigEntry("pause_menu");
 
     public void createEmpty() {
         try {
             var root = new JsonObject();
-            root.add("top_left", new JsonArray());
-            root.add("top_right", new JsonArray());
-            root.add("bottom_left", new JsonArray());
-            root.add("bottom_right", new JsonArray());
-            root.add("mod_blacklist", new JsonArray());
+
+            MAIN_MENU.createEmpty(root);
+            PAUSE_MENU.createEmpty(root);
 
             Files.deleteIfExists(CONFIG_PATH);
             Files.writeString(CONFIG_PATH, GSON.toJson(root));
@@ -48,52 +38,10 @@ public class MMCConfig {
 
             var root = GSON.fromJson(Files.readString(CONFIG_PATH), JsonObject.class);
 
-            if (root.has("top_left")) {
-                var topLeftJson = root.getAsJsonArray("top_left");
-                topLeftJson.forEach((element) -> topLeft.add(Text.Serializer.fromJson(element)));
-            }
-
-            if (root.has("top_right")) {
-                var topRightJson = root.getAsJsonArray("top_right");
-                topRightJson.forEach((element) -> topRight.add(Text.Serializer.fromJson(element)));
-            }
-
-            if (root.has("bottom_left")) {
-                var bottomLeftJson = root.getAsJsonArray("bottom_left");
-                bottomLeftJson.forEach((element) -> bottomLeft.add(Text.Serializer.fromJson(element)));
-            }
-
-            if (root.has("bottom_right")) {
-                var bottomRightJson = root.getAsJsonArray("bottom_right");
-                bottomRightJson.forEach((element) -> bottomRight.add(Text.Serializer.fromJson(element)));
-            }
-
-            if (root.has("mod_blacklist")) {
-                var modBlacklistJson = root.getAsJsonArray("mod_blacklist");
-                modBlacklistJson.forEach((element) -> modBlacklist.add(element.getAsString()));
-            }
+            MAIN_MENU.load(root);
+            PAUSE_MENU.load(root);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public List<Text> getTopLeft() {
-        return topLeft;
-    }
-
-    public List<Text> getTopRight() {
-        return topRight;
-    }
-
-    public List<Text> getBottomLeft() {
-        return bottomLeft;
-    }
-
-    public List<Text> getBottomRight() {
-        return bottomRight;
-    }
-
-    public List<String> getModBlacklist() {
-        return modBlacklist;
     }
 }

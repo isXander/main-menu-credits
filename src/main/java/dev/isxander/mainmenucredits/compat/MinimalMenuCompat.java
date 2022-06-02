@@ -1,7 +1,6 @@
 package dev.isxander.mainmenucredits.compat;
 
 import minimalmenu.config.ConfigHandler;
-import net.minecraft.client.MinecraftClient;
 
 public class MinimalMenuCompat {
     public static boolean removeCopyright() {

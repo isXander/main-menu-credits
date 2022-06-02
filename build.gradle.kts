@@ -8,6 +8,7 @@ plugins {
     id("com.modrinth.minotaur") version "2.+"
     id("com.matthewprenger.cursegradle") version "1.+"
     id("com.github.breadmoirai.github-release") version "2.+"
+    id("io.github.p03w.machete") version "1.1.2"
     `maven-publish`
 }
 
