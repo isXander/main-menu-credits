@@ -94,6 +94,7 @@ if (hasProperty("curseforge.token")) {
             addGameVersion(minecraftVersion)
             addGameVersion("1.19-Snapshot")
             addGameVersion("Fabric")
+            addGameVersion("Quilt")
             addGameVersion("Java 17")
 
             changelog = changelogText
