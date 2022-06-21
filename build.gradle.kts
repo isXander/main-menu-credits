@@ -30,10 +30,7 @@ dependencies {
     val fabricLoaderVersion: String by project
 
     minecraft("com.mojang:minecraft:$minecraftVersion")
-    mappings(loom.layered {
-        officialMojangMappings()
-        addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:$minecraftVersion+build.+:v2"))
-    })
+    mappings("net.fabricmc:yarn:$minecraftVersion+build.+:v2")
 
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
 
@@ -129,11 +126,11 @@ publishing {
     }
 
     repositories {
-        if (hasProperty("woverflow.username") && hasProperty("woverflow.password")) {
-            maven(url = "https://repo.woverflow.cc/releases") {
+        if (hasProperty("xander-repo.username") && hasProperty("xander-repo.password")) {
+            maven(url = "https://maven.isxander.dev/releases") {
                 credentials {
-                    username = property("woverflow.username")?.toString()
-                    password = property("woverflow.password")?.toString()
+                    username = property("xander-repo.username")?.toString()
+                    password = property("xander-repo.password")?.toString()
                 }
             }
         }
