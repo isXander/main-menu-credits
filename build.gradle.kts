@@ -72,7 +72,7 @@ modrinth {
     versionNumber.set("${project.version}")
     versionType.set("release")
     uploadFile.set(tasks["remapJar"])
-    gameVersions.set(listOf(minecraftVersion, "22w17a"))
+    gameVersions.set(listOf(minecraftVersion, "1.19"))
     loaders.set(listOf("fabric", "quilt"))
     changelog.set(changelogText)
     syncBodyFrom.set(file("README.md").readText())
@@ -89,7 +89,7 @@ if (hasProperty("curseforge.token")) {
             id = "618812"
             releaseType = "release"
             addGameVersion(minecraftVersion)
-            addGameVersion("1.19-Snapshot")
+            addGameVersion("1.19")
             addGameVersion("Fabric")
             addGameVersion("Quilt")
             addGameVersion("Java 17")
