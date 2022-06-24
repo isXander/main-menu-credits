@@ -2,7 +2,6 @@ plugins {
     java
 
     id("fabric-loom") version "0.12.+"
-    id("org.quiltmc.quilt-mappings-on-loom") version "4.+"
     id("io.github.juuxel.loom-quiltflower") version "1.7.+"
 
     id("com.modrinth.minotaur") version "2.+"
