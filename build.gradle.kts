@@ -6,14 +6,14 @@ plugins {
     id("io.github.juuxel.loom-quiltflower") version "1.7.+"
 
     id("com.modrinth.minotaur") version "2.+"
-    id("com.matthewprenger.cursegradle") version "1.+"
+    id("me.hypherionmc.cursegradle") version "2.+"
     id("com.github.breadmoirai.github-release") version "2.+"
     id("io.github.p03w.machete") version "1.1.2"
     `maven-publish`
 }
 
 group = "dev.isxander"
-version = "1.1.0"
+version = "1.1.1"
 
 repositories {
     mavenCentral()
@@ -81,8 +81,8 @@ modrinth {
 if (hasProperty("curseforge.token")) {
     curseforge {
         apiKey = findProperty("curseforge.token")
-        project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
-            mainArtifact(tasks["remapJar"], closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
+        project(closureOf<me.hypherionmc.cursegradle.CurseProject> {
+            mainArtifact(tasks["remapJar"], closureOf<me.hypherionmc.cursegradle.CurseArtifact> {
                 displayName = "${project.version}"
             })
 
@@ -98,7 +98,7 @@ if (hasProperty("curseforge.token")) {
             changelogType = "markdown"
         })
 
-        options(closureOf<com.matthewprenger.cursegradle.Options> {
+        options(closureOf<me.hypherionmc.cursegradle.Options> {
             forgeGradleIntegration = false
         })
     }

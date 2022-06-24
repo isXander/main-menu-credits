@@ -3,7 +3,6 @@ package dev.isxander.mainmenucredits.mixins;
 import dev.isxander.mainmenucredits.MainMenuCredits;
 import dev.isxander.mainmenucredits.compat.Compat;
 import dev.isxander.mainmenucredits.gui.TextWidget;
-import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.text.Text;
@@ -53,6 +52,5 @@ public class TitleScreenMixin extends Screen {
                 i++;
             }
         }
-        client.setScreen(new GameMenuScreen(true));
     }
 }
