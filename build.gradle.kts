@@ -1,8 +1,8 @@
 plugins {
     java
 
-    id("fabric-loom") version "0.12.+"
-    id("io.github.juuxel.loom-quiltflower") version "1.7.+"
+    id("fabric-loom") version "1.0.+"
+    id("io.github.juuxel.loom-quiltflower") version "1.8.+"
 
     id("com.modrinth.minotaur") version "2.+"
     id("me.hypherionmc.cursegradle") version "2.+"
@@ -34,11 +34,11 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
 
     // compat
-    modImplementation("com.terraformersmc:modmenu:3.2.2") // fix button shifting
+    modImplementation("com.terraformersmc:modmenu:5.0.0-alpha.4") // fix button shifting
 
-    modImplementation("curse.maven:minimal-menu-405795:3798011") // minimal-menu-1.18.2-0.1.5 - fix bottom right offset
-    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.53.0+1.18.2")
-    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:6.2.+")
+    modCompileOnly("curse.maven:minimal-menu-405795:3826009") // minimal-menu-1.19-0.1.5 - fix bottom right offset
+    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.68.1+1.19.3")
+    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:9.0.93")
 }
 
 tasks {
