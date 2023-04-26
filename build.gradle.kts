@@ -34,11 +34,11 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
 
     // compat
-    modImplementation("com.terraformersmc:modmenu:5.0.0-alpha.4") // fix button shifting
+    modImplementation("com.terraformersmc:modmenu:6.2.0") // fix button shifting
 
     modCompileOnly("curse.maven:minimal-menu-405795:3826009") // minimal-menu-1.19-0.1.5 - fix bottom right offset
-    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.68.1+1.19.3")
-    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:9.0.93")
+    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.78.0+1.19.4")
+    //modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:9.0.93")
 }
 
 tasks {
