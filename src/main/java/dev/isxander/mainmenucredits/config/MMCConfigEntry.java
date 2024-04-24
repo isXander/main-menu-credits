@@ -2,7 +2,10 @@ package dev.isxander.mainmenucredits.config;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
+import dev.isxander.mainmenucredits.MainMenuCredits;
 import net.minecraft.text.Text;
+import net.minecraft.text.TextCodecs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,22 +32,34 @@ public class MMCConfigEntry {
         var child = root.getAsJsonObject(key);
         if (child.has("top_left")) {
             var topLeftJson = child.getAsJsonArray("top_left");
-            topLeftJson.forEach((element) -> topLeft.add(Text.Serializer.fromJson(element)));
+            topLeftJson.forEach((element) -> TextCodecs.CODEC.parse(JsonOps.INSTANCE, element)
+                    .resultOrPartial(MainMenuCredits.LOGGER::error)
+                    .ifPresent(topLeft::add)
+            );
         }
 
         if (child.has("top_right")) {
             var topRightJson = child.getAsJsonArray("top_right");
-            topRightJson.forEach((element) -> topRight.add(Text.Serializer.fromJson(element)));
+            topRightJson.forEach((element) -> TextCodecs.CODEC.parse(JsonOps.INSTANCE, element)
+                    .resultOrPartial(MainMenuCredits.LOGGER::error)
+                    .ifPresent(topRight::add)
+            );
         }
 
         if (child.has("bottom_left")) {
             var bottomLeftJson = child.getAsJsonArray("bottom_left");
-            bottomLeftJson.forEach((element) -> bottomLeft.add(Text.Serializer.fromJson(element)));
+            bottomLeftJson.forEach((element) -> TextCodecs.CODEC.parse(JsonOps.INSTANCE, element)
+                    .resultOrPartial(MainMenuCredits.LOGGER::error)
+                    .ifPresent(bottomLeft::add)
+            );
         }
 
         if (child.has("bottom_right")) {
             var bottomRightJson = child.getAsJsonArray("bottom_right");
-            bottomRightJson.forEach((element) -> bottomRight.add(Text.Serializer.fromJson(element)));
+            bottomRightJson.forEach((element) -> TextCodecs.CODEC.parse(JsonOps.INSTANCE, element)
+                    .resultOrPartial(MainMenuCredits.LOGGER::error)
+                    .ifPresent(bottomRight::add)
+            );
         }
 
         if (child.has("mod_blacklist")) {

@@ -1,8 +1,7 @@
 plugins {
     java
 
-    id("fabric-loom") version "1.0.+"
-    id("io.github.juuxel.loom-quiltflower") version "1.8.+"
+    id("fabric-loom") version "1.6.+"
 
     id("com.modrinth.minotaur") version "2.+"
     id("me.hypherionmc.cursegradle") version "2.+"
@@ -12,7 +11,7 @@ plugins {
 }
 
 group = "dev.isxander"
-version = "1.1.2"
+version = "1.2.0"
 
 repositories {
     mavenCentral()
@@ -34,11 +33,10 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
 
     // compat
-    modImplementation("com.terraformersmc:modmenu:6.2.0") // fix button shifting
+    modImplementation("com.terraformersmc:modmenu:10.0.0-beta.1") // fix button shifting
 
     modCompileOnly("curse.maven:minimal-menu-405795:3826009") // minimal-menu-1.19-0.1.5 - fix bottom right offset
-    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.78.0+1.19.4")
-    //modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:9.0.93")
+    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.97.5+1.20.5")
 }
 
 tasks {
@@ -63,6 +61,8 @@ tasks {
     }
 }
 
+java.withSourcesJar()
+
 val changelogText = file("changelogs/${project.version}.md").takeIf { it.exists() }?.readText() ?: "No changelog provided"
 
 modrinth {
@@ -71,7 +71,7 @@ modrinth {
     versionNumber.set("${project.version}")
     versionType.set("release")
     uploadFile.set(tasks["remapJar"])
-    gameVersions.set(listOf(minecraftVersion, "1.19"))
+    gameVersions.set(listOf(minecraftVersion, "1.20.5"))
     loaders.set(listOf("fabric", "quilt"))
     changelog.set(changelogText)
     syncBodyFrom.set(file("README.md").readText())
@@ -88,10 +88,10 @@ if (hasProperty("curseforge.token")) {
             id = "618812"
             releaseType = "release"
             addGameVersion(minecraftVersion)
-            addGameVersion("1.19")
+            addGameVersion("1.20.5")
             addGameVersion("Fabric")
             addGameVersion("Quilt")
-            addGameVersion("Java 17")
+            addGameVersion("Java 21")
 
             changelog = changelogText
             changelogType = "markdown"
@@ -106,11 +106,11 @@ if (hasProperty("curseforge.token")) {
 githubRelease {
     token(findProperty("github.token")?.toString())
 
-    owner("isXander")
-    repo("main-menu-credits")
-    tagName("${project.version}")
-    targetCommitish("master")
-    body(changelogText)
+    owner.set("isXander")
+    repo.set("main-menu-credits")
+    tagName.set("${project.version}")
+    targetCommitish.set("master")
+    body.set(changelogText)
     releaseAssets(tasks["remapJar"].outputs.files)
 }
 

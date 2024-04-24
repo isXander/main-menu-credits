@@ -1,11 +1,15 @@
 package dev.isxander.mainmenucredits;
 
+import com.mojang.logging.LogUtils;
 import dev.isxander.mainmenucredits.api.MainMenuCreditAPI;
 import dev.isxander.mainmenucredits.config.MMCConfig;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+import org.slf4j.Logger;
 
 public class MainMenuCredits implements ClientModInitializer {
+    public static final Logger LOGGER = LogUtils.getLogger();
+
     private static MainMenuCredits instance;
 
     private MMCConfig config;
