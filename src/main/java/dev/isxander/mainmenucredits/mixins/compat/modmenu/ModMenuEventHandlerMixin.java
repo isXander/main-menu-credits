@@ -15,14 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Pseudo
 @Mixin(value = ModMenuEventHandler.class)
 public class ModMenuEventHandlerMixin {
-    // for ModMenu <6.2.0
-    @Surrogate
-    @Inject(method = "shiftButtons(Lnet/minecraft/client/gui/widget/ClickableWidget;ZI)V", at = @At("HEAD"), cancellable = true, require = 0)
-    private static void cancelShiftButtons(ClickableWidget button, boolean shiftUp, int spacing, CallbackInfo ci) {
-        if (button instanceof TextWidget)
-            ci.cancel();
-    }
-
     // for ModMenu >=6.2.0
     @Surrogate
     @Inject(method = "shiftButtons(Lnet/minecraft/client/gui/widget/Widget;ZI)V", at = @At("HEAD"), cancellable = true, require = 0)
