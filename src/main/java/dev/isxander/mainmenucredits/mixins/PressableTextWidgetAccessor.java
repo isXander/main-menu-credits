@@ -11,4 +11,8 @@ public interface PressableTextWidgetAccessor {
     @Mutable
     @Accessor
     void setHoverText(Text content);
+
+    @Mutable
+    @Accessor
+    Text getText();
 }

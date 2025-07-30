@@ -3,6 +3,7 @@ package dev.isxander.mainmenucredits.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import dev.isxander.mainmenucredits.MainMenuCredits;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.nio.file.Files;
@@ -25,7 +26,7 @@ public class MMCConfig {
             Files.deleteIfExists(CONFIG_PATH);
             Files.writeString(CONFIG_PATH, GSON.toJson(root));
         } catch (Exception e) {
-            e.printStackTrace();
+            MainMenuCredits.LOGGER.error("Failed to load the config file!", e);
         }
     }
 
@@ -41,7 +42,7 @@ public class MMCConfig {
             MAIN_MENU.load(root);
             PAUSE_MENU.load(root);
         } catch (Exception e) {
-            e.printStackTrace();
+            MainMenuCredits.LOGGER.error("Failed to load the config file!", e);
         }
     }
 }
