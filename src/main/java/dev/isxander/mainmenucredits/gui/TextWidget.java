@@ -1,6 +1,7 @@
 package dev.isxander.mainmenucredits.gui;
 
 import dev.isxander.mainmenucredits.mixins.PressableTextWidgetAccessor;
+import dev.isxander.mainmenucredits.mixins.ScreenAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.PressableTextWidget;
@@ -11,7 +12,13 @@ public class TextWidget extends PressableTextWidget {
     private final boolean clickable;
 
     public TextWidget(int x, int y, int width, int height, Text text, Screen screen) {
-        super(x, y, width, height, text, (button) -> screen.handleTextClick(text.getStyle()), MinecraftClient.getInstance().textRenderer);
+        super(x, y, width, height, text,
+                (button) -> {
+                    var clickEvent = text.getStyle().getClickEvent();
+                    if (clickEvent != null)
+                        ScreenAccessor.invokeHandleBasicClickEvent(clickEvent, MinecraftClient.getInstance(), screen);
+                },
+                MinecraftClient.getInstance().textRenderer);
 
         clickable = text.getStyle().getClickEvent() != null;
         // remove underline if no click event

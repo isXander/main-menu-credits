@@ -1,7 +1,7 @@
 plugins {
     java
 
-    id("fabric-loom") version "1.6.+"
+    id("fabric-loom") version "1.11.+"
 
     id("com.modrinth.minotaur") version "2.+"
     id("me.hypherionmc.cursegradle") version "2.+"
@@ -16,9 +16,6 @@ repositories {
     mavenCentral()
     maven("https://maven.terraformersmc.com")
     maven("https://maven.shedaniel.me")
-    maven("https://cursemaven.com") {
-        content { includeGroup("curse.maven") }
-    }
 }
 
 val minecraftVersion: String by project
@@ -27,15 +24,14 @@ dependencies {
     val fabricLoaderVersion: String by project
 
     minecraft("com.mojang:minecraft:$minecraftVersion")
-    mappings("net.fabricmc:yarn:$minecraftVersion+build.+:v2")
+    mappings("net.fabricmc:yarn:$minecraftVersion+build.1:v2")
 
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
 
     // compat
-    modImplementation("com.terraformersmc:modmenu:10.0.0-beta.1") // fix button shifting
+    modImplementation("com.terraformersmc:modmenu:15.0.0-beta.3") // fix button shifting
 
-    modCompileOnly("curse.maven:minimal-menu-405795:3826009") // minimal-menu-1.19-0.1.5 - fix bottom right offset
-    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.97.5+1.20.5")
+    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.130.0+1.21.8")
 }
 
 tasks {
@@ -70,7 +66,7 @@ modrinth {
     versionNumber.set("${project.version}")
     versionType.set("release")
     uploadFile.set(tasks["remapJar"])
-    gameVersions.set(listOf(minecraftVersion, "1.20.5"))
+    gameVersions.set(listOf("1.21.8", "1.21.7", "1.21.6"))
     loaders.set(listOf("fabric", "quilt"))
     changelog.set(changelogText)
     syncBodyFrom.set(file("README.md").readText())
@@ -86,8 +82,9 @@ if (hasProperty("curseforge.token")) {
 
             id = "618812"
             releaseType = "release"
-            addGameVersion(minecraftVersion)
-            addGameVersion("1.20.5")
+            addGameVersion("1.21.8")
+            addGameVersion("1.21.7")
+            addGameVersion("1.21.6")
             addGameVersion("Fabric")
             addGameVersion("Quilt")
             addGameVersion("Java 21")
