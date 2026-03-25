@@ -1,136 +1,175 @@
 plugins {
-    java
+    `java-library`
+    id("dev.isxander.modstitch.base") version "0.8.4"
 
-    id("fabric-loom") version "1.6.+"
-
-    id("com.modrinth.minotaur") version "2.+"
-    id("me.hypherionmc.cursegradle") version "2.+"
-    id("com.github.breadmoirai.github-release") version "2.+"
+    id("me.modmuss50.mod-publish-plugin") version "0.8.4"
+    id("dev.isxander.secrets") version "0.1.0"
     `maven-publish`
+    signing
+    id("com.gradleup.nmcp") version "1.4.4"
+    id("com.gradleup.nmcp.aggregation") version "1.4.4"
 }
 
-group = "dev.isxander"
-version = "1.2.0"
+modstitch {
+    minecraftVersion = "26.1"
+
+    metadata {
+        modId = "isxander-main-menu-credits"
+        modName = "Main Menu Credits"
+        modVersion = "1.3.0"
+        modGroup = "dev.isxander"
+        modDescription = "Add text to the main menu."
+        modAuthor = "isXander"
+        modLicense = "LGPLv3"
+    }
+
+    loom {
+        fabricLoaderVersion = "0.18.5"
+    }
+
+    mixin {
+        addMixinsToModManifest = true
+        configs.register("isxander-main-menu-credits")
+    }
+}
 
 repositories {
     mavenCentral()
-    maven("https://maven.terraformersmc.com")
-    maven("https://maven.shedaniel.me")
-    maven("https://cursemaven.com") {
-        content { includeGroup("curse.maven") }
-    }
+    maven("https://maven.terraformersmc.com/releases")
+    maven("https://maven.nucleoid.xyz/releases")
 }
-
-val minecraftVersion: String by project
 
 dependencies {
-    val fabricLoaderVersion: String by project
+    modstitchModImplementation("com.terraformersmc:modmenu:18.0.0-alpha.7")
 
-    minecraft("com.mojang:minecraft:$minecraftVersion")
-    mappings("net.fabricmc:yarn:$minecraftVersion+build.+:v2")
-
-    modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
-
-    // compat
-    modImplementation("com.terraformersmc:modmenu:10.0.0-beta.1") // fix button shifting
-
-    modCompileOnly("curse.maven:minimal-menu-405795:3826009") // minimal-menu-1.19-0.1.5 - fix bottom right offset
-    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.97.5+1.20.5")
+    nmcpAggregation(project)
 }
 
-tasks {
-    processResources {
-        inputs.property("version", project.version)
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
 
-        filesMatching(listOf("fabric.mod.json", "quilt.mod.json")) {
-            expand(
-                "version" to project.version
-            )
-        }
+tasks.javadoc {
+    isFailOnError = false
+}
+
+
+// ------- PUBLISHING ---------
+
+val modVersion = modstitch.metadata.modVersion.get()
+val mcVersion = modstitch.minecraftVersion.get()
+
+publishMods {
+    dryRun.set(false)
+
+    displayName.set("$modVersion for Fabric $mcVersion")
+
+    file = modstitch.finalJarTask.flatMap { it.archiveFile }
+
+    fun versionList(prop: String) = findProperty(prop)?.toString()
+        ?.split(',')
+        ?.map { it.trim() }
+        ?: emptyList()
+
+    // modrinth and curseforge use different formats for snapshots. this can be expressed globally
+    val stableMCVersions = versionList("pub.stableMC")
+
+    changelog = rootProject.file("changelog.md").readText()
+    type = STABLE
+
+    modLoaders.add("fabric")
+
+    modrinth {
+        projectId = providers.gradleProperty("pub.modrinthId")
+        accessToken = secrets.gradleProperty("modrinth.accessToken")
+
+        minecraftVersions.addAll(stableMCVersions)
+        minecraftVersions.addAll(versionList("pub.modrinthMC"))
+
+        announcementTitle = "Download $mcVersion for Fabric from Modrinth"
     }
 
-    register("releaseMod") {
-        group = "main-menu-credits"
-
-        dependsOn("modrinth")
-        dependsOn("modrinthSyncBody")
-        dependsOn("curseforge")
-        dependsOn("publish")
-        dependsOn("githubRelease")
-    }
-}
-
-java.withSourcesJar()
-
-val changelogText = file("changelogs/${project.version}.md").takeIf { it.exists() }?.readText() ?: "No changelog provided"
-
-modrinth {
-    token.set(findProperty("modrinth.token")?.toString())
-    projectId.set("qJDfP7WN")
-    versionNumber.set("${project.version}")
-    versionType.set("release")
-    uploadFile.set(tasks["remapJar"])
-    gameVersions.set(listOf(minecraftVersion, "1.20.5"))
-    loaders.set(listOf("fabric", "quilt"))
-    changelog.set(changelogText)
-    syncBodyFrom.set(file("README.md").readText())
-}
-
-if (hasProperty("curseforge.token")) {
     curseforge {
-        apiKey = findProperty("curseforge.token")
-        project(closureOf<me.hypherionmc.cursegradle.CurseProject> {
-            mainArtifact(tasks["remapJar"], closureOf<me.hypherionmc.cursegradle.CurseArtifact> {
-                displayName = "${project.version}"
-            })
+        projectId = providers.gradleProperty("pub.curseforgeId")
+        projectSlug = providers.gradleProperty("pub.curseforgeSlug")
+        accessToken = secrets.gradleProperty("curseforge.accessToken")
 
-            id = "618812"
-            releaseType = "release"
-            addGameVersion(minecraftVersion)
-            addGameVersion("1.20.5")
-            addGameVersion("Fabric")
-            addGameVersion("Quilt")
-            addGameVersion("Java 21")
+        minecraftVersions.addAll(stableMCVersions)
+        minecraftVersions.addAll(versionList("pub.curseMC"))
 
-            changelog = changelogText
-            changelogType = "markdown"
-        })
-
-        options(closureOf<me.hypherionmc.cursegradle.Options> {
-            forgeGradleIntegration = false
-        })
+        announcementTitle = "Download $mcVersion for Fabric from CurseForge"
     }
-}
-
-githubRelease {
-    token(findProperty("github.token")?.toString())
-
-    owner.set("isXander")
-    repo.set("main-menu-credits")
-    tagName.set("${project.version}")
-    targetCommitish.set("master")
-    body.set(changelogText)
-    releaseAssets(tasks["remapJar"].outputs.files)
 }
 
 publishing {
     publications {
-        create<MavenPublication>("main-menu-credits") {
-            groupId = group.toString()
-            artifactId = base.archivesName.get()
-
+        register<MavenPublication>("mod") {
             from(components["java"])
-        }
-    }
 
-    repositories {
-        if (hasProperty("xander-repo.username") && hasProperty("xander-repo.password")) {
-            maven(url = "https://maven.isxander.dev/releases") {
-                credentials {
-                    username = property("xander-repo.username")?.toString()
-                    password = property("xander-repo.password")?.toString()
+            groupId = "dev.isxander"
+            artifactId = "main-menu-credits"
+            version = modstitch.metadata.modVersion.get()
+
+            pom {
+                name = modstitch.metadata.modName
+                description = modstitch.metadata.modDescription
+                url = "https://www.isxander.dev/projects/main-menu-credits"
+                licenses {
+                    license {
+                        name = "LGPL-3.0-or-later"
+                        url = "https://www.gnu.org/licenses/lgpl-3.0.en.html"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "isXander"
+                        name = "Xander"
+                        email = "business@isxander.dev"
+                    }
+                }
+                scm {
+                    url = "https://github.com/isXander/main-menu-credits"
+                    connection = "scm:git:git//github.com/isXander/main-menu-credits.git"
+                    developerConnection = "scm:git:ssh://git@github.com/isXander/main-menu-credits.git"
                 }
             }
         }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
+val signingKeyProvider = secrets.gradleProperty("signing.secretKey")
+val signingPasswordProvider = secrets.gradleProperty("signing.password")
+signing {
+    sign(publishing.publications["mod"])
+}
+// not configuration cache friendly, but neither is the whole of signing plugin
+// this plugin does not support lazy configuration of signing keys
+gradle.taskGraph.whenReady {
+    val willSign = allTasks.any { it.name.startsWith("sign") }
+    if (willSign) {
+        signing {
+            val signingKey = signingKeyProvider.orNull
+            val signingPassword = signingPasswordProvider.orNull
+
+            isRequired = signingKey != null && signingPassword != null
+            if (isRequired) {
+                useInMemoryPgpKeys(signingKey, signingPassword)
+            } else {
+                logger.error("Signing keys not found; skipping signing!")
+            }
+        }
+    }
+}
+
+nmcpAggregation {
+    centralPortal {
+        username = secrets.gradleProperty("mcentral.username")
+        password = secrets.gradleProperty("mcentral.password")
+
+        publicationName = "main-menu-credits:$version"
     }
 }

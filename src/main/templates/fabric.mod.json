@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "isxander-main-menu-credits",
-  "version": "${version}",
-  "name": "Main Menu Credits",
-  "description": "Add text to the main menu.",
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
   "authors": [
-    "isXander"
+    "${mod_author}"
   ],
   "contact": {
     "homepage": "https://isxander.dev",
     "issues": "https://github.com/isXander/main-menu-credits/issues",
     "sources": "https://github.com/isXander/main-menu-credits"
   },
-  "license": "LGPLv3",
+  "license": "${mod_license}",
   "icon": "main-menu-credits.png",
   "environment": "client",
   "entrypoints": {
@@ -20,12 +20,9 @@
       "dev.isxander.mainmenucredits.MainMenuCredits"
     ]
   },
-  "mixins": [
-    "isxander-main-menu-credits.mixins.json"
-  ],
   "depends": {
     "fabricloader": ">=0.15.0",
-    "minecraft": ">=1.20.5",
-    "java": ">=21"
+    "minecraft": ">=26.1",
+    "java": ">=25"
   }
 }

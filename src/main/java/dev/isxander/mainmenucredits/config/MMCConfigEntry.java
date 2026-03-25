@@ -4,8 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import dev.isxander.mainmenucredits.MainMenuCredits;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextCodecs;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,10 @@ import java.util.List;
 public class MMCConfigEntry {
     private final String key;
 
-    private final List<Text> topLeft = new ArrayList<>();
-    private final List<Text> topRight = new ArrayList<>();
-    private final List<Text> bottomLeft = new ArrayList<>();
-    private final List<Text> bottomRight = new ArrayList<>();
+    private final List<Component> topLeft = new ArrayList<>();
+    private final List<Component> topRight = new ArrayList<>();
+    private final List<Component> bottomLeft = new ArrayList<>();
+    private final List<Component> bottomRight = new ArrayList<>();
 
     private final List<String> modBlacklist = new ArrayList<>();
 
@@ -32,7 +32,7 @@ public class MMCConfigEntry {
         var child = root.getAsJsonObject(key);
         if (child.has("top_left")) {
             var topLeftJson = child.getAsJsonArray("top_left");
-            topLeftJson.forEach((element) -> TextCodecs.CODEC.parse(JsonOps.INSTANCE, element)
+            topLeftJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
                     .resultOrPartial(MainMenuCredits.LOGGER::error)
                     .ifPresent(topLeft::add)
             );
@@ -40,7 +40,7 @@ public class MMCConfigEntry {
 
         if (child.has("top_right")) {
             var topRightJson = child.getAsJsonArray("top_right");
-            topRightJson.forEach((element) -> TextCodecs.CODEC.parse(JsonOps.INSTANCE, element)
+            topRightJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
                     .resultOrPartial(MainMenuCredits.LOGGER::error)
                     .ifPresent(topRight::add)
             );
@@ -48,7 +48,7 @@ public class MMCConfigEntry {
 
         if (child.has("bottom_left")) {
             var bottomLeftJson = child.getAsJsonArray("bottom_left");
-            bottomLeftJson.forEach((element) -> TextCodecs.CODEC.parse(JsonOps.INSTANCE, element)
+            bottomLeftJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
                     .resultOrPartial(MainMenuCredits.LOGGER::error)
                     .ifPresent(bottomLeft::add)
             );
@@ -56,7 +56,7 @@ public class MMCConfigEntry {
 
         if (child.has("bottom_right")) {
             var bottomRightJson = child.getAsJsonArray("bottom_right");
-            bottomRightJson.forEach((element) -> TextCodecs.CODEC.parse(JsonOps.INSTANCE, element)
+            bottomRightJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
                     .resultOrPartial(MainMenuCredits.LOGGER::error)
                     .ifPresent(bottomRight::add)
             );
@@ -78,19 +78,19 @@ public class MMCConfigEntry {
         root.add(key, child);
     }
 
-    public List<Text> getTopLeft() {
+    public List<Component> getTopLeft() {
         return topLeft;
     }
 
-    public List<Text> getTopRight() {
+    public List<Component> getTopRight() {
         return topRight;
     }
 
-    public List<Text> getBottomLeft() {
+    public List<Component> getBottomLeft() {
         return bottomLeft;
     }
 
-    public List<Text> getBottomRight() {
+    public List<Component> getBottomRight() {
         return bottomRight;
     }
 

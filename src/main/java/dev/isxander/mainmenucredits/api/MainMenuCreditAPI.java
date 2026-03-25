@@ -1,40 +1,40 @@
 package dev.isxander.mainmenucredits.api;
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface MainMenuCreditAPI {
-    default List<Text> getTitleScreenTopLeft() {
+    default List<Component> getTitleScreenTopLeft() {
         return new ArrayList<>();
     }
 
-    default List<Text> getTitleScreenTopRight() {
+    default List<Component> getTitleScreenTopRight() {
         return new ArrayList<>();
     }
 
-    default List<Text> getTitleScreenBottomLeft() {
+    default List<Component> getTitleScreenBottomLeft() {
         return new ArrayList<>();
     }
 
-    default List<Text> getTitleScreenBottomRight() {
+    default List<Component> getTitleScreenBottomRight() {
         return new ArrayList<>();
     }
 
-    default List<Text> getPauseScreenTopLeft() {
+    default List<Component> getPauseScreenTopLeft() {
         return new ArrayList<>();
     }
 
-    default List<Text> getPauseScreenTopRight() {
+    default List<Component> getPauseScreenTopRight() {
         return new ArrayList<>();
     }
 
-    default List<Text> getPauseScreenBottomLeft() {
+    default List<Component> getPauseScreenBottomLeft() {
         return new ArrayList<>();
     }
 
-    default List<Text> getPauseScreenBottomRight() {
+    default List<Component> getPauseScreenBottomRight() {
         return new ArrayList<>();
     }
 }
