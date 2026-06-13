@@ -1,0 +1,31 @@
+[versions]
+fabric-loom = "1.17.0-alpha.12"
+neoforged-gradle = "7.1.36"
+modstitch-multiloader = "0.1.6"
+modstitch-manifests = "0.1.3"
+modstitch-modrepos = "0.1.2"
+mod-publish-plugin = "2.0.0-beta.2"
+central-portal-publishing = "0.1.8"
+spotless = "8.6.0"
+
+minecraft = "26.1.2"
+neoforge = "26.1.2.67-beta"
+fabric-loader = "0.19.2"
+mod-menu = "18.0.0-beta.1"
+
+[libraries]
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
+
+mod_menu = { module = "com.terraformersmc:modmenu", version.ref = "mod-menu" }
+
+[plugins]
+fabric-loom = { id = "net.fabricmc.fabric-loom", version.ref = "fabric-loom" }
+neoforged-gradle = { id = "net.neoforged.gradle.userdev", version.ref = "neoforged-gradle" }
+modstitch-multiloader = { id = "dev.isxander.mtk.multiloader", version.ref = "modstitch-multiloader" }
+modstitch-manifests = { id = "dev.isxander.mtk.manifests", version.ref = "modstitch-manifests" }
+modstitch-modrepos = { id = "dev.isxander.mtk.modrepos", version.ref = "modstitch-modrepos" }
+mod-publish-plugin = { id = "me.modmuss50.mod-publish-plugin", version.ref = "mod-publish-plugin" }
+central-portal-publishing = { id = "dev.lukebemish.central-portal-publishing", version.ref = "central-portal-publishing" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

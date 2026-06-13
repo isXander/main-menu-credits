@@ -9,7 +9,6 @@
     "TitleScreenMixin"
   ],
   "mixins": [
-    "PauseScreenMixin",
-    "compat.modmenu.ModMenuEventHandlerMixin"
+    "PauseScreenMixin"
   ]
 }

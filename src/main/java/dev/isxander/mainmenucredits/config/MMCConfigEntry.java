@@ -1,3 +1,12 @@
+/*
+ * Copyright (C) 2026 isXander
+ *
+ * This file is part of Main Menu Credits.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package dev.isxander.mainmenucredits.config;
 
 import com.google.gson.JsonArray;
@@ -11,90 +20,90 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MMCConfigEntry {
-    private final String key;
+	private final String key;
 
-    private final List<Component> topLeft = new ArrayList<>();
-    private final List<Component> topRight = new ArrayList<>();
-    private final List<Component> bottomLeft = new ArrayList<>();
-    private final List<Component> bottomRight = new ArrayList<>();
+	private final List<Component> topLeft = new ArrayList<>();
+	private final List<Component> topRight = new ArrayList<>();
+	private final List<Component> bottomLeft = new ArrayList<>();
+	private final List<Component> bottomRight = new ArrayList<>();
 
-    private final List<String> modBlacklist = new ArrayList<>();
+	private final List<String> modBlacklist = new ArrayList<>();
 
-    public MMCConfigEntry(String key) {
-        this.key = key;
-    }
+	public MMCConfigEntry(String key) {
+		this.key = key;
+	}
 
-    public void load(JsonObject root) {
-        if (!root.has(key)) {
-            return;
-        }
+	public void load(JsonObject root) {
+		if (!root.has(key)) {
+			return;
+		}
 
-        var child = root.getAsJsonObject(key);
-        if (child.has("top_left")) {
-            var topLeftJson = child.getAsJsonArray("top_left");
-            topLeftJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
-                    .resultOrPartial(MainMenuCredits.LOGGER::error)
-                    .ifPresent(topLeft::add)
-            );
-        }
+		var child = root.getAsJsonObject(key);
+		if (child.has("top_left")) {
+			var topLeftJson = child.getAsJsonArray("top_left");
+			topLeftJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
+					.resultOrPartial(MainMenuCredits.LOGGER::error)
+					.ifPresent(topLeft::add)
+			);
+		}
 
-        if (child.has("top_right")) {
-            var topRightJson = child.getAsJsonArray("top_right");
-            topRightJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
-                    .resultOrPartial(MainMenuCredits.LOGGER::error)
-                    .ifPresent(topRight::add)
-            );
-        }
+		if (child.has("top_right")) {
+			var topRightJson = child.getAsJsonArray("top_right");
+			topRightJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
+					.resultOrPartial(MainMenuCredits.LOGGER::error)
+					.ifPresent(topRight::add)
+			);
+		}
 
-        if (child.has("bottom_left")) {
-            var bottomLeftJson = child.getAsJsonArray("bottom_left");
-            bottomLeftJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
-                    .resultOrPartial(MainMenuCredits.LOGGER::error)
-                    .ifPresent(bottomLeft::add)
-            );
-        }
+		if (child.has("bottom_left")) {
+			var bottomLeftJson = child.getAsJsonArray("bottom_left");
+			bottomLeftJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
+					.resultOrPartial(MainMenuCredits.LOGGER::error)
+					.ifPresent(bottomLeft::add)
+			);
+		}
 
-        if (child.has("bottom_right")) {
-            var bottomRightJson = child.getAsJsonArray("bottom_right");
-            bottomRightJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
-                    .resultOrPartial(MainMenuCredits.LOGGER::error)
-                    .ifPresent(bottomRight::add)
-            );
-        }
+		if (child.has("bottom_right")) {
+			var bottomRightJson = child.getAsJsonArray("bottom_right");
+			bottomRightJson.forEach((element) -> ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, element)
+					.resultOrPartial(MainMenuCredits.LOGGER::error)
+					.ifPresent(bottomRight::add)
+			);
+		}
 
-        if (child.has("mod_blacklist")) {
-            var modBlacklistJson = child.getAsJsonArray("mod_blacklist");
-            modBlacklistJson.forEach((element) -> modBlacklist.add(element.getAsString()));
-        }
-    }
+		if (child.has("mod_blacklist")) {
+			var modBlacklistJson = child.getAsJsonArray("mod_blacklist");
+			modBlacklistJson.forEach((element) -> modBlacklist.add(element.getAsString()));
+		}
+	}
 
-    public void createEmpty(JsonObject root) {
-        var child = new JsonObject();
-        child.add("top_left", new JsonArray());
-        child.add("top_right", new JsonArray());
-        child.add("bottom_left", new JsonArray());
-        child.add("bottom_right", new JsonArray());
-        child.add("mod_blacklist", new JsonArray());
-        root.add(key, child);
-    }
+	public void createEmpty(JsonObject root) {
+		var child = new JsonObject();
+		child.add("top_left", new JsonArray());
+		child.add("top_right", new JsonArray());
+		child.add("bottom_left", new JsonArray());
+		child.add("bottom_right", new JsonArray());
+		child.add("mod_blacklist", new JsonArray());
+		root.add(key, child);
+	}
 
-    public List<Component> getTopLeft() {
-        return topLeft;
-    }
+	public List<Component> getTopLeft() {
+		return topLeft;
+	}
 
-    public List<Component> getTopRight() {
-        return topRight;
-    }
+	public List<Component> getTopRight() {
+		return topRight;
+	}
 
-    public List<Component> getBottomLeft() {
-        return bottomLeft;
-    }
+	public List<Component> getBottomLeft() {
+		return bottomLeft;
+	}
 
-    public List<Component> getBottomRight() {
-        return bottomRight;
-    }
+	public List<Component> getBottomRight() {
+		return bottomRight;
+	}
 
-    public List<String> getModBlacklist() {
-        return modBlacklist;
-    }
+	public List<String> getModBlacklist() {
+		return modBlacklist;
+	}
 }

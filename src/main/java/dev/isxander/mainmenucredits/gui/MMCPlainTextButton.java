@@ -1,3 +1,12 @@
+/*
+ * Copyright (C) 2026 isXander
+ *
+ * This file is part of Main Menu Credits.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package dev.isxander.mainmenucredits.gui;
 
 import dev.isxander.mainmenucredits.mixins.ScreenAccessor;
@@ -12,49 +21,49 @@ import net.minecraft.network.chat.Style;
 import org.jspecify.annotations.NonNull;
 
 public class MMCPlainTextButton extends StringWidget {
-    private final Component message;
-    private final Component underlinedMessage;
-    private final boolean clickable;
-    private final boolean inGame;
+	private final Component message;
+	private final Component underlinedMessage;
+	private final boolean clickable;
+	private final boolean inGame;
 
-    public MMCPlainTextButton(int x, int y, int width, int height, Component message, Font font, boolean inGame) {
-        super(x, y, width, height, message, font);
-        this.setComponentClickHandler(this::onClickStyle);
+	public MMCPlainTextButton(int x, int y, int width, int height, Component message, Font font, boolean inGame) {
+		super(x, y, width, height, message, font);
+		this.setComponentClickHandler(this::onClickStyle);
 
-        this.active = true;
-        this.clickable = message.getStyle().getClickEvent() != null;
-        this.message = message;
-        this.underlinedMessage = this.clickable
-                ? ComponentUtils.mergeStyles(message, Style.EMPTY.withUnderlined(true))
-                : this.message;
-        this.inGame = inGame;
-    }
+		this.active = true;
+		this.clickable = message.getStyle().getClickEvent() != null;
+		this.message = message;
+		this.underlinedMessage = this.clickable
+				? ComponentUtils.mergeStyles(message, Style.EMPTY.withUnderlined(true))
+				: this.message;
+		this.inGame = inGame;
+	}
 
-    @Override
-    public void visitLines(@NonNull ActiveTextCollector output) {
-        if (isHoveredOrFocused()) {
-            this.setMessage(this.underlinedMessage);
-        }
+	@Override
+	public void visitLines(@NonNull ActiveTextCollector output) {
+		if (isHoveredOrFocused()) {
+			this.setMessage(this.underlinedMessage);
+		}
 
-        super.visitLines(output);
+		super.visitLines(output);
 
-        if (isHoveredOrFocused()) {
-            this.setMessage(this.message);
-        }
-    }
+		if (isHoveredOrFocused()) {
+			this.setMessage(this.message);
+		}
+	}
 
-    @Override
-    public void playDownSound(@NonNull SoundManager soundManager) {
-        if (this.clickable) {
-            super.playDownSound(soundManager);
-        }
-    }
+	@Override
+	public void playDownSound(@NonNull SoundManager soundManager) {
+		if (this.clickable) {
+			super.playDownSound(soundManager);
+		}
+	}
 
-    private void onClickStyle(Style style) {
-        if (this.inGame) {
-            ScreenAccessor.callDefaultHandleGameClickEvent(style.getClickEvent(), Minecraft.getInstance(), Minecraft.getInstance().screen);
-        } else {
-            ScreenAccessor.callDefaultHandleClickEvent(style.getClickEvent(), Minecraft.getInstance(), Minecraft.getInstance().screen);
-        }
-    }
+	private void onClickStyle(Style style) {
+		if (this.inGame) {
+			ScreenAccessor.callDefaultHandleGameClickEvent(style.getClickEvent(), Minecraft.getInstance(), Minecraft.getInstance().screen);
+		} else {
+			ScreenAccessor.callDefaultHandleClickEvent(style.getClickEvent(), Minecraft.getInstance(), Minecraft.getInstance().screen);
+		}
+	}
 }
