@@ -1,6 +1,6 @@
 [versions]
 fabric-loom = "1.17.0-alpha.12"
-neoforged-gradle = "7.1.36"
+neoforged-gradle = "7.1.37"
 modstitch-multiloader = "0.1.6"
 modstitch-manifests = "0.1.3"
 modstitch-modrepos = "0.1.2"
@@ -8,10 +8,10 @@ mod-publish-plugin = "2.0.0-beta.2"
 central-portal-publishing = "0.1.8"
 spotless = "8.6.0"
 
-minecraft = "26.1.2"
-neoforge = "26.1.2.67-beta"
-fabric-loader = "0.19.2"
-mod-menu = "18.0.0-beta.1"
+minecraft = "26.2"
+neoforge = "26.2.0.0-beta"
+fabric-loader = "0.19.3"
+mod-menu = "20.0.0-beta.2"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
