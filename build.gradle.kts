@@ -126,7 +126,7 @@ tasks.withType<Javadoc>().configureEach {
 publishMods {
     file = tasks.universalJar.flatMap { it.archiveFile }
     additionalFiles.from(tasks.fabricJar.flatMap { it.archiveFile })
-    additionalFiles.from(tasks.neoforgeJar.flatMap { it.archiveFile })
+    additionalFiles.from(tasks.neoforgeJarJar.flatMap { it.archiveFile })
 
     val projectVersion = project.version.toString()
 
