@@ -60,7 +60,7 @@ public class MMCPlainTextButton extends StringWidget {
 	}
 
 	private void onClickStyle(Style style) {
-        var screen = Minecraft.getInstance().gui.screen();
+		var screen = Minecraft.getInstance().gui.screen();
 		if (this.inGame) {
 			ScreenAccessor.callDefaultHandleGameClickEvent(style.getClickEvent(), Minecraft.getInstance(), screen);
 		} else {
