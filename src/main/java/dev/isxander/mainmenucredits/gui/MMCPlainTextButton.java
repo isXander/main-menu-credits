@@ -14,9 +14,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.narration.NarratedElementType;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import org.jspecify.annotations.NonNull;
 
@@ -66,5 +69,15 @@ public class MMCPlainTextButton extends StringWidget {
 		} else {
 			ScreenAccessor.callDefaultHandleClickEvent(style.getClickEvent(), Minecraft.getInstance(), screen);
 		}
+	}
+
+	@Override
+	protected MutableComponent createNarrationMessage() {
+		return message.copy();
+	}
+
+	@Override
+	protected void updateWidgetNarration(NarrationElementOutput output) {
+		output.add(NarratedElementType.TITLE, this.createNarrationMessage());
 	}
 }
