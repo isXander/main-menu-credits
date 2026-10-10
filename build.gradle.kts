@@ -19,7 +19,7 @@ plugins {
 val minecraftVersion = libs.versions.minecraft.get()
 
 group = "dev.isxander"
-version = "1.4.0+$minecraftVersion"
+version = "1.5.0+$minecraftVersion"
 
 java {
     toolchain {
@@ -46,7 +46,7 @@ runs.register("neoforgeClient") {
     runType("client")
 }
 
-val minecraftVersionRange = "[26.2,)"
+val minecraftVersionRange = "[26.3,)"
 val supportedMinecraftVersions = manifests.minecraftReleasesMatching(minecraftVersionRange)
 
 manifests {

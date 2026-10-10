@@ -1,3 +1,3 @@
-# Main Menu Credits 1.4.0
+# Main Menu Credits 1.5.0
 
-- Update to 26.2
+- Update to 26.3
